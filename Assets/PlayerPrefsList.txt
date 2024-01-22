@@ -1,0 +1,25 @@
+**PlayerPrefs:**
+
+Int:
+CurrentLevel
+PlayerProLevel
+
+
+Float:
+Sens
+Master
+Music
+Sfx
+UI
+
+
+If PlayerProLevel:
+1. Interact
+2. Sprint
+3. Crouch/Jump
+4. Gun
+
+(Float)Difficulty
+Easy = 1
+Normal = 1.5
+Hard = 2
