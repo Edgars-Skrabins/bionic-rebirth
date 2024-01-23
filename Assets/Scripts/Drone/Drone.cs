@@ -27,12 +27,12 @@ public class Drone : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.I.OnFacilityShutdown += DeactivateDrone;
+        EventManager.I.OnFacilityShutdown += DeactivateDrone;
     }
 
     private void OnDisable()
     {
-        GameEvents.I.OnFacilityShutdown -= DeactivateDrone;
+        EventManager.I.OnFacilityShutdown -= DeactivateDrone;
     }
 
     private void Start()

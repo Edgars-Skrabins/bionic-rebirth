@@ -17,7 +17,7 @@ public class EndSceneCollider : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         
-        if (GameEvents.I.OnFacilityShutdownHasInvoked)
+        if (EventManager.I.OnFacilityShutdownHasInvoked)
         {
             
             StartCoroutine(CompleteScene());

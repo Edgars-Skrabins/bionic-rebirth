@@ -35,7 +35,7 @@ public class Panel : InteractionObject
         {
             return;
         }
-        GameEvents.I.InvokeOnFacilityShutdown();
+        EventManager.I.InvokeOnFacilityShutdown();
     }
 
     public void PlayBrainSound()

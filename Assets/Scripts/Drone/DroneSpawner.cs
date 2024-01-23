@@ -25,7 +25,7 @@ public class DroneSpawner : MonoBehaviour
         //     Destroy(gameObject);
         // }
         
-        if(GameEvents.I.OnFacilityShutdownHasInvoked) { return; }
+        if(EventManager.I.OnFacilityShutdownHasInvoked) { return; }
         spawnDroneTimer += Time.deltaTime;
         
         if(spawnDroneTimer > spawnRateInSeconds && amountOfDronesSpawned < maxDrones)

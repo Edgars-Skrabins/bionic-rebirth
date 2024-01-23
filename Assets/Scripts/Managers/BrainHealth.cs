@@ -16,7 +16,7 @@ public class BrainHealth : Health
     public override void Die()
     {
         base.Die();
-        GameEvents.I.InvokeOnFacilityShutdown();
+        EventManager.I.InvokeOnFacilityShutdown();
         unityEvent.Invoke();
         Instantiate(m_brainDeathVFX, m_brainExplosionLocationTF.position, Quaternion.identity);
     }

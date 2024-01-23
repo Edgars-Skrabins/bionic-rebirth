@@ -25,7 +25,7 @@ public class InteractionRaycast : MonoBehaviour
                 {
                     //Get method from InteractionObject to command to do something like pickup or open door
                     target.Interact();
-                    GameEvents.I.InvokeOnPlayeInteract();
+                    EventManager.I.InvokeOnPlayeInteract();
                 }
             }
 

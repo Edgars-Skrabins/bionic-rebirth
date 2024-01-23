@@ -9,12 +9,12 @@ public class Elevator : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.I.OnFacilityShutdown += OpenElevatorDoor;
+        EventManager.I.OnFacilityShutdown += OpenElevatorDoor;
     }
 
     private void OnDisable()
     {
-        GameEvents.I.OnFacilityShutdown -= OpenElevatorDoor;
+        EventManager.I.OnFacilityShutdown -= OpenElevatorDoor;
     }
 
     private void OpenElevatorDoor()

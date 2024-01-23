@@ -70,7 +70,7 @@ public class Pistol : MonoBehaviour
             }
 
             PlayMuzzleVFX();
-            GameEvents.I.InvokeOnPlayerShootGun();
+            EventManager.I.InvokeOnPlayerShootGun();
             audioSource.PlayOneShot(audioSource.clip);
             m_gunAnimation.Stop();
             m_gunAnimation.CrossFade("Pistol_Shoot", 0);

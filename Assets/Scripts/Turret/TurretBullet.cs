@@ -21,7 +21,7 @@ public class TurretBullet : MonoBehaviour
             if(other.TryGetComponent(out Health health))
             {
                 health.TakeDamage(m_bulletDamage, true);
-                GameEvents.I.InvokeOnPlayerTakeTurretDamage();
+                EventManager.I.InvokeOnPlayerTakeTurretDamage();
             }
         }
         
@@ -35,7 +35,7 @@ public class TurretBullet : MonoBehaviour
             if(other.collider.TryGetComponent(out Health health))
             {
                 health.TakeDamage(m_bulletDamage, true);
-                GameEvents.I.InvokeOnPlayerTakeTurretDamage();
+                EventManager.I.InvokeOnPlayerTakeTurretDamage();
             }
         }
         

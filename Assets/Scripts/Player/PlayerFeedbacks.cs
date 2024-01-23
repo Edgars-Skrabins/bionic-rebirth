@@ -22,18 +22,18 @@ public class PlayerFeedbacks : MonoBehaviour
     
     private void SubscribeEvents()
     {
-        GameEvents.I.OnPlayerTakeLaserDamage += m_playerTakeLaserDamage.PlayFeedbacks;
-        GameEvents.I.OnPlayerTakeTurretDamage += m_playerTakeTurretDamage.PlayFeedbacks;
-        GameEvents.I.OnPlayerInteract += m_playerInteract.PlayFeedbacks;
-        GameEvents.I.OnPlayerShootGun += m_playerShootGun.PlayFeedbacks;
+        EventManager.I.OnPlayerTakeLaserDamage += m_playerTakeLaserDamage.PlayFeedbacks;
+        EventManager.I.OnPlayerTakeTurretDamage += m_playerTakeTurretDamage.PlayFeedbacks;
+        EventManager.I.OnPlayerInteract += m_playerInteract.PlayFeedbacks;
+        EventManager.I.OnPlayerShootGun += m_playerShootGun.PlayFeedbacks;
     }
 
     private void UnsubscribeEvents()
     {
-        GameEvents.I.OnPlayerTakeLaserDamage -= m_playerTakeLaserDamage.PlayFeedbacks;
-        GameEvents.I.OnPlayerTakeTurretDamage -= m_playerTakeTurretDamage.PlayFeedbacks;
-        GameEvents.I.OnPlayerInteract -= m_playerInteract.PlayFeedbacks;
-        GameEvents.I.OnPlayerShootGun -= m_playerShootGun.PlayFeedbacks;
+        EventManager.I.OnPlayerTakeLaserDamage -= m_playerTakeLaserDamage.PlayFeedbacks;
+        EventManager.I.OnPlayerTakeTurretDamage -= m_playerTakeTurretDamage.PlayFeedbacks;
+        EventManager.I.OnPlayerInteract -= m_playerInteract.PlayFeedbacks;
+        EventManager.I.OnPlayerShootGun -= m_playerShootGun.PlayFeedbacks;
     }
 
 }

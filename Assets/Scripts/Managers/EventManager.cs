@@ -3,9 +3,9 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GameEvents : Singleton<GameEvents>
+public class EventManager : Singleton<EventManager>
 {
-    
+
     public event Action OnPlayerTakeLaserDamage;
     public event Action OnPlayerTakeTurretDamage;
     public event Action OnPlayerInteract;

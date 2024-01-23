@@ -28,12 +28,12 @@ public class Laser : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.I.OnFacilityShutdown += DeactivateLaser;
+        EventManager.I.OnFacilityShutdown += DeactivateLaser;
     }
 
     private void OnDisable()
     {
-        GameEvents.I.OnFacilityShutdown -= DeactivateLaser;
+        EventManager.I.OnFacilityShutdown -= DeactivateLaser;
     }
 
 
@@ -115,7 +115,7 @@ public class Laser : MonoBehaviour
         {
             if (m_damageTimer >= m_damageFrequencyInSeconds)
             {
-                GameEvents.I.InvokeOnPlayerTakeLaserDamageEvent();
+                EventManager.I.InvokeOnPlayerTakeLaserDamageEvent();
                 health.TakeDamage(m_laserDamage, false);
                 m_damageTimer = 0;
             }

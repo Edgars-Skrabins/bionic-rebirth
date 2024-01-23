@@ -29,12 +29,12 @@ public class Turret : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.I.OnFacilityShutdown += DeactivateTurret;
+        EventManager.I.OnFacilityShutdown += DeactivateTurret;
     }
 
     private void OnDisable()
     {
-        GameEvents.I.OnFacilityShutdown -= DeactivateTurret;
+        EventManager.I.OnFacilityShutdown -= DeactivateTurret;
     }
 
     private void Start()
