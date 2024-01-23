@@ -1,4 +1,0 @@
-repository "ZenoJam_7@Deimos_Game_Studio@cloud"
-  path "/"
-    br "/main"
-    co "/main"
