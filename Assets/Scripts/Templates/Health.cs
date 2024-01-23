@@ -2,7 +2,6 @@ using UnityEngine;
 
 public abstract class Health : MonoBehaviour
 {
-
     public float m_health;
 
     public float m_maxHealth;
@@ -24,6 +23,7 @@ public abstract class Health : MonoBehaviour
             Debug.Log("Damage: " + _damage);
             Debug.Log("PlayerPref: " + PlayerPrefs.GetFloat("Difficulty"));
         }
+
         if (m_health <= 0)
         {
             Die();
@@ -39,5 +39,4 @@ public abstract class Health : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
 }

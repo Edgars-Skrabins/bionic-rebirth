@@ -1,30 +1,43 @@
-using System;
 using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
+    [Header("Laser Damage Settings")] [Space(5)] [SerializeField]
+    private int m_laserDamage = 1;
 
-    private Transform m_laserTF;
-
-    [Header("Laser Damage Settings")]
-    [Space(5)]
-    [SerializeField] private int m_laserDamage = 1;
     [SerializeField] private float m_damageFrequencyInSeconds = 1f;
-    [Space(10)]
 
-    [Header("Checkpoint Settings")]
-    [Space(5)]
-    [SerializeField] private Transform[] m_checkpoints;
+    [Space(10)] [Header("Checkpoint Settings")] [Space(5)] [SerializeField]
+    private Transform[] m_checkpoints;
+
     [SerializeField] private bool m_useCheckpoints;
     [SerializeField] private float m_laserMoveSpeed;
-    [Space(10)]
-
-    [SerializeField] private GameObject m_laserGFX;
-
+    [Space(10)] [SerializeField] private GameObject m_laserGFX;
     private Transform m_currentCheckpoint;
     private int m_currentCheckpointIndex;
-
+    private float m_damageTimer;
     private bool m_laserActive = true;
+    private Transform m_laserTF;
+
+    private void Start()
+    {
+        m_laserTF = transform;
+
+        if (!m_useCheckpoints) return;
+        if (m_checkpoints.Length > 0)
+        {
+            m_currentCheckpoint = m_checkpoints[m_currentCheckpointIndex];
+        }
+    }
+
+    private void Update()
+    {
+        m_damageTimer += Time.deltaTime;
+
+        if (!m_useCheckpoints || !m_laserActive) return;
+        CheckCheckpointDistance();
+        MoveTowardsCheckpoint();
+    }
 
     private void OnEnable()
     {
@@ -36,32 +49,14 @@ public class Laser : MonoBehaviour
         EventManager.I.OnFacilityShutdown -= DeactivateLaser;
     }
 
-
-    private void Start()
+    private void OnTriggerStay(Collider _other)
     {
-        m_laserTF = transform;
-
-        if (m_useCheckpoints)
+        if (!m_laserActive)
         {
-            if (m_checkpoints.Length > 0)
-            {
-                m_currentCheckpoint = m_checkpoints[m_currentCheckpointIndex];
-            }
+            return;
         }
 
-    }
-
-    private float m_damageTimer;
-    private void Update()
-    {
-        m_damageTimer += Time.deltaTime;
-
-        if (m_useCheckpoints && m_laserActive)
-        {
-            CheckCheckpointDistance();
-            MoveTowardsCheckpoint();
-        }
-
+        DoDamage(_other);
     }
 
     private void MoveTowardsCheckpoint()
@@ -73,19 +68,16 @@ public class Laser : MonoBehaviour
     {
         float distanceBetweenCheckpointAndTurret = GetDirectionToCurrentCheckpoint().magnitude;
 
-        if (distanceBetweenCheckpointAndTurret < 0.05f)
+        if (!(distanceBetweenCheckpointAndTurret < 0.05f)) return;
+        if (m_currentCheckpointIndex + 1 >= m_checkpoints.Length)
         {
-            if (m_currentCheckpointIndex + 1 >= m_checkpoints.Length)
-            {
-                SetNextCheckpoint();
-                m_currentCheckpointIndex = 0;
-            }
-            else
-            {
-                SetNextCheckpoint();
-                m_currentCheckpointIndex += 1;
-            }
-
+            SetNextCheckpoint();
+            m_currentCheckpointIndex = 0;
+        }
+        else
+        {
+            SetNextCheckpoint();
+            m_currentCheckpointIndex += 1;
         }
     }
 
@@ -100,26 +92,12 @@ public class Laser : MonoBehaviour
         return direction;
     }
 
-    private void OnTriggerStay(Collider _other)
-    {
-        if (!m_laserActive)
-            return;
-
-        DoDamage(_other);
-
-    }
-
     private void DoDamage(Collider _other)
     {
-        if (_other.TryGetComponent(out Health health))
-        {
-            if (m_damageTimer >= m_damageFrequencyInSeconds)
-            {
-                EventManager.I.InvokeOnPlayerTakeLaserDamageEvent();
-                health.TakeDamage(m_laserDamage, false);
-                m_damageTimer = 0;
-            }
-        }
+        if (!_other.TryGetComponent(out Health health) || !(m_damageTimer >= m_damageFrequencyInSeconds)) return;
+        EventManager.I.InvokeOnPlayerTakeLaserDamageEvent();
+        health.TakeDamage(m_laserDamage, false);
+        m_damageTimer = 0;
     }
 
     [ContextMenu("DeactivateLaser")]
@@ -135,5 +113,4 @@ public class Laser : MonoBehaviour
         m_laserActive = true;
         m_laserGFX.SetActive(true);
     }
-
 }

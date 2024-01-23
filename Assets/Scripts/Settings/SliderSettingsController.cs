@@ -4,16 +4,20 @@ using UnityEngine.UI;
 
 public class SliderSettingsController : MonoBehaviour
 {
-    [SerializeField] private string SliderType;
-    [SerializeField] private bool isAudioSetting;
+    [SerializeField] private string m_sliderType;
+    [SerializeField] private bool m_isAudioSetting;
 
     private void Start()
     {
         Settings settings = Settings.I;
         Slider slider = GetComponentInChildren<Slider>();
-        slider.value = PlayerPrefs.GetFloat(SliderType);
-        if (!isAudioSetting) { return; }
+        slider.value = PlayerPrefs.GetFloat(m_sliderType);
+        if (!m_isAudioSetting)
+        {
+            return;
+        }
+
         AudioMixer audioMixer = settings.audioMixer;
-        audioMixer.SetFloat(SliderType, PlayerPrefs.GetFloat(SliderType));
+        audioMixer.SetFloat(m_sliderType, PlayerPrefs.GetFloat(m_sliderType));
     }
 }

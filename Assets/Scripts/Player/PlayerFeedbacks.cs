@@ -1,10 +1,8 @@
-using System;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 
 public class PlayerFeedbacks : MonoBehaviour
 {
-
     [SerializeField] private MMF_Player m_playerTakeLaserDamage;
     [SerializeField] private MMF_Player m_playerTakeTurretDamage;
     [SerializeField] private MMF_Player m_playerInteract;
@@ -19,7 +17,7 @@ public class PlayerFeedbacks : MonoBehaviour
     {
         UnsubscribeEvents();
     }
-    
+
     private void SubscribeEvents()
     {
         EventManager.I.OnPlayerTakeLaserDamage += m_playerTakeLaserDamage.PlayFeedbacks;
@@ -35,5 +33,4 @@ public class PlayerFeedbacks : MonoBehaviour
         EventManager.I.OnPlayerInteract -= m_playerInteract.PlayFeedbacks;
         EventManager.I.OnPlayerShootGun -= m_playerShootGun.PlayFeedbacks;
     }
-
 }

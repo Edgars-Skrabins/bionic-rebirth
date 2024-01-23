@@ -7,7 +7,7 @@ public class MusicManager : MonoBehaviour
     private AudioSource audioSource;
     private int lastScene;
     private bool musicAlreadyShot;
-    
+
     private void Start()
     {
         lastScene = SceneManager.GetActiveScene().buildIndex;
@@ -44,7 +44,4 @@ public class MusicManager : MonoBehaviour
             }
         }
     }
-
-    
-
 }

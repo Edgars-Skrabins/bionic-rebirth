@@ -1,10 +1,8 @@
 using System;
-using JetBrains.Annotations;
-using UnityEngine;
-using UnityEngine.Events;
 
 public class EventManager : Singleton<EventManager>
 {
+    public bool OnFacilityShutdownHasInvoked;
 
     public event Action OnPlayerTakeLaserDamage;
     public event Action OnPlayerTakeTurretDamage;
@@ -12,7 +10,6 @@ public class EventManager : Singleton<EventManager>
     public event Action OnPlayerShootGun;
 
     public event Action OnFacilityShutdown;
-    public bool OnFacilityShutdownHasInvoked;
 
     public void InvokeOnPlayerTakeLaserDamageEvent()
     {
@@ -39,5 +36,4 @@ public class EventManager : Singleton<EventManager>
         OnFacilityShutdown?.Invoke();
         OnFacilityShutdownHasInvoked = true;
     }
-
 }

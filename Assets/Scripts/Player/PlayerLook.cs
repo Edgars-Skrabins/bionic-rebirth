@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
+    public float sens;
     private Transform player;
 
-    public float sens;
-
-    private float xRotation = 0f;
+    private float xRotation;
 
     private void Start()
     {

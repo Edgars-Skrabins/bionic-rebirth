@@ -2,35 +2,23 @@ using UnityEngine;
 
 public class InteractionRaycast : MonoBehaviour
 {
-
-    private Camera cam;
     [SerializeField] private int interactRange;
+
+    private Camera m_camera;
 
     private void Start()
     {
-        cam = GetComponent<Camera>();
+        m_camera = GetComponent<Camera>();
     }
 
     private void Update()
     {
-        
-        
         RaycastHit hit;
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, interactRange))
-        {
-            InteractionObject target = hit.transform.GetComponent<InteractionObject>();
-            if (target != null)
-            {
-                if (Input.GetKeyDown(KeyCode.E)) 
-                {
-                    //Get method from InteractionObject to command to do something like pickup or open door
-                    target.Interact();
-                    EventManager.I.InvokeOnPlayeInteract();
-                }
-            }
-
-        }
-
+        if (!Physics.Raycast(m_camera.transform.position, m_camera.transform.forward, out hit, interactRange)) return;
+        InteractionObject target = hit.transform.GetComponent<InteractionObject>();
+        if (target == null) return;
+        if (!Input.GetKeyDown(KeyCode.E)) return;
+        target.Interact();
+        EventManager.I.InvokeOnPlayeInteract();
     }
-
 }

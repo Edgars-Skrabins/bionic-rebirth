@@ -4,59 +4,61 @@ using UnityEngine.UI;
 
 public class PlayerMovement : Singleton<PlayerMovement>
 {
-    [Header("Player Values")]
-    [SerializeField] private float headCheckDis;
+    [Header("Player Values")] [SerializeField]
+    private float headCheckDis;
+
     [SerializeField] private float speed = 5f;
     [SerializeField] private float sprint = 1.4f;
     [SerializeField] private float gravity = -9.8f;
     [SerializeField] private float jumpHeight = 8f;
 
-    [Space]
+    [Space] [Header("Player Data")] [SerializeField]
+    private float groundDistance;
 
-    [Header("Player Data")]
-    [SerializeField] private float groundDistance;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Transform headCheck;
     [SerializeField] private Transform groundCheck;
 
     [SerializeField] private GameObject Gun;
     [SerializeField] private Slider staminaSlider;
+    [HideInInspector] public float sprintValue = 500f;
+    private Animator anim;
+    private bool canSprint = true;
 
     private CharacterController controller;
-    private Animator anim;
     private bool headCheckClear = true;
-    private bool canSprint = true;
-    private bool sprinting = false;
-    [HideInInspector] public float sprintValue = 500f;
-    private bool isCrouching = false;
+    private bool isCrouching;
+    private bool isgrounded;
+    private float nextTimeToAdd;
+    private bool sprinting;
     private int sprintLength = 200;
-    Vector3 velocity;
-    bool isgrounded;
-    private float nextTimeToAdd = 0;
+    private Vector3 velocity;
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         SprintSlideUpdate();
-        if (PlayerPrefs.GetInt("PlayerProLevel") >= 4 || SceneManager.GetActiveScene().buildIndex >= 5) 
-        { 
+        if (PlayerPrefs.GetInt("PlayerProLevel") >= 4 || SceneManager.GetActiveScene().buildIndex >= 5)
+        {
             Gun.SetActive(true);
             PlayerPrefs.SetInt("PlayerProLevel", 4);
-        } else 
-        {
-            Gun.SetActive(false); 
         }
-
+        else
+        {
+            Gun.SetActive(false);
+        }
     }
 
-    
 
     private void FixedUpdate()
     {
         isgrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isgrounded && velocity.y < 0) { velocity.y = -2; }
+        if (isgrounded && velocity.y < 0)
+        {
+            velocity.y = -2;
+        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -76,44 +78,54 @@ public class PlayerMovement : Singleton<PlayerMovement>
     }
 
 
-    void Jump()
+    private void Jump()
     {
-        if (PlayerPrefs.GetInt("PlayerProLevel") < 3) { return; }
+        if (PlayerPrefs.GetInt("PlayerProLevel") < 3)
+        {
+            return;
+        }
+
         if (Input.GetKey(KeyCode.Space) && isgrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
-        
     }
 
-    void Sprint()
+    private void Sprint()
     {
-        if (PlayerPrefs.GetInt("PlayerProLevel") < 2) { return; }
+        if (PlayerPrefs.GetInt("PlayerProLevel") < 2)
+        {
+            return;
+        }
+
         staminaSlider.value = sprintValue;
-        if (isCrouching) { return; }
+        if (isCrouching)
+        {
+            return;
+        }
+
         if (Time.time >= nextTimeToAdd)
         {
             nextTimeToAdd = Time.time + 1f / 50f;
             if (sprintValue >= -10 && !sprinting && sprintValue < sprintLength)
             {
                 sprintValue++;
-
             }
-
-
         }
+
         if (sprintValue <= 0)
         {
             canSprint = false;
         }
+
         if (canSprint == false)
         {
             if (sprintValue >= 30)
             {
                 canSprint = true;
             }
-
         }
+
         if (sprintValue > sprintLength)
         {
             sprintValue = sprintLength;
@@ -130,19 +142,22 @@ public class PlayerMovement : Singleton<PlayerMovement>
         {
             sprint = 1f;
             sprinting = false;
-
         }
     }
 
-    void Crouch()
+    private void Crouch()
     {
-        if (PlayerPrefs.GetInt("PlayerProLevel") < 3) { return; }
+        if (PlayerPrefs.GetInt("PlayerProLevel") < 3)
+        {
+            return;
+        }
+
         RaycastHit hit;
         if (Physics.Raycast(headCheck.transform.position, headCheck.transform.up, out hit, 2))
         {
             if (hit.distance <= 1)
             {
-                headCheckClear = false; 
+                headCheckClear = false;
             }
         }
         else
@@ -160,9 +175,8 @@ public class PlayerMovement : Singleton<PlayerMovement>
             anim.SetBool("isCrouching", false);
             isCrouching = false;
         }
-        
-        
     }
+
     public void SprintSlideUpdate()
     {
         if (PlayerPrefs.GetInt("PlayerProLevel") >= 2 || SceneManager.GetActiveScene().buildIndex >= 3)
