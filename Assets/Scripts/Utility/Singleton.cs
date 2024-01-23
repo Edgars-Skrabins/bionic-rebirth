@@ -15,7 +15,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
         else if (I != null && I != this)
         {
-            //Debug.LogError("There's more than one singleton " + gameObject.name + " of type " + GetType());
             Destroy(gameObject);
         }
     }
